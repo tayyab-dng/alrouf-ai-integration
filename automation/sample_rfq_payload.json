@@ -1,0 +1,22 @@
+{
+  "client_name": "Tariq Mahmood",
+  "company": "Al-Futtaim Construction",
+  "email": "tariq.mahmood@al-futtaim.ae",
+  "phone": "+971-4-2567890",
+  "project_type": "Commercial Office",
+  "requested_items": [
+    {
+      "sku": "LED-PANEL-6060",
+      "quantity": 120
+    },
+    {
+      "sku": "LED-DRIVER-40W",
+      "quantity": 120
+    },
+    {
+      "sku": "LED-HIGHBAY-150W",
+      "quantity": 15
+    }
+  ],
+  "additional_notes": "Please provide quotation with shipping to Jebel Ali Port. Dimmable drivers preferred."
+}
