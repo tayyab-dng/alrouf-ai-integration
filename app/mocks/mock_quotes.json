@@ -1,0 +1,56 @@
+[
+  {
+    "rfq_id": "RFQ-2026-001",
+    "items": [
+      {
+        "item_id": "LED-PANEL-6060",
+        "description": "600x600 Recessed LED Panel Light, 40W, 4000K",
+        "quantity": 150,
+        "unit_price": 25.0
+      },
+      {
+        "item_id": "LED-DRIVER-40W",
+        "description": "Dimmable LED Driver 40W for Panel Lights",
+        "quantity": 150,
+        "unit_price": 8.5
+      }
+    ],
+    "total_cost": 5025.0,
+    "currency": "USD",
+    "status": "pending"
+  },
+  {
+    "rfq_id": "RFQ-2026-002",
+    "items": [
+      {
+        "item_id": "LED-HIGHBAY-150W",
+        "description": "Industrial LED High Bay Light, 150W, IP65, 5000K",
+        "quantity": 40,
+        "unit_price": 120.0
+      },
+      {
+        "item_id": "LED-MOUNT-HB",
+        "description": "Suspension mounting kit for High Bay Light",
+        "quantity": 40,
+        "unit_price": 12.0
+      }
+    ],
+    "total_cost": 5280.0,
+    "currency": "USD",
+    "status": "approved"
+  },
+  {
+    "rfq_id": "RFQ-2026-003",
+    "items": [
+      {
+        "item_id": "LED-STREET-80W",
+        "description": "Smart LED Street Light, 80W, Photocell sensors included",
+        "quantity": 80,
+        "unit_price": 185.0
+      }
+    ],
+    "total_cost": 14800.0,
+    "currency": "USD",
+    "status": "draft"
+  }
+]
