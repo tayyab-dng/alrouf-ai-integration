@@ -63,14 +63,17 @@ An automated routing pipeline is established to process inbound RFQs:
 graph TD
     A[trigger_webhook.py] -->|1. POST JSON Payload| B(Make.com Webhook)
     B -->|2. Parse & Format Data| C(Google Sheets CRM)
-    C -->|3. Alert Trigger| D[Sales Team Notification]
-    C -->|4. Generate Response| E[LLM Bilingual Draft Scenario]
+    B -->|3. Get File from URL| D(HTTP File Fetch)
+    D -->|4. Store PDF File| E(Google Drive)
+    C -->|5. Alert Trigger| F[Sales Team Notification]
+    C -->|6. Generate Response| G[LLM Bilingual Draft Scenario]
 ```
 
 1. **Inbound Webhook Trigger**: A python script `trigger_webhook.py` parses a mock RFQ payload (`sample_rfq_payload.json`) and fires a POST request to the Make.com webhook listener.
 2. **Google Sheets CRM Routing**: Make.com parses the incoming JSON data and automatically appends a new row to the Google Sheets CRM containing the client's name, company, email, project type, item totals, and a `"Pending"` status.
-3. **Alerting**: The scenario initiates an email or notification alert to the sales team detailing the new commercial client.
-4. **LLM Draft**: Make.com calls the Gemini LLM module to automatically generate a drafted response based on the incoming RFQ details.
+3. **HTTP File Fetch & Google Drive (Attachment Archiving)**: The workflow reads the `"attachment_url"` from the payload, fetches the file via HTTP, and uploads it to a structured Google Drive folder for document archiving.
+4. **Alerting**: The scenario initiates an email or notification alert to the sales team detailing the new commercial client.
+5. **LLM Draft**: Make.com calls the Gemini LLM module to automatically generate a drafted response based on the incoming RFQ details.
 
 ---
 
