@@ -1,4 +1,5 @@
 import os
+import time
 from dotenv import load_dotenv
 import chromadb
 import google.generativeai as genai
@@ -23,7 +24,11 @@ def generate_bilingual_response(query: str) -> dict:
     """
     Retrieves relevant document chunks from ChromaDB and uses Gemini 3.1 Flash Lite
     to generate an answer in the same language as the query (English or Arabic).
+    Tracks latency and estimates token costs.
     """
+    # Start latency tracking before retrieval
+    start_time = time.time()
+
     # a) Search ChromaDB for top 3 relevant chunks
     results = collection.query(
         query_texts=[query],
@@ -56,7 +61,25 @@ Answer:"""
     # Generate content
     response = model.generate_content(prompt)
     
-    # Format and return dict with citations
+    # End latency tracking
+    end_time = time.time()
+    latency = end_time - start_time
+    
+    # Extract token usage and estimate cost
+    # Gemini 3.1 Flash Lite: $0.075 / 1M input tokens, $0.30 / 1M output tokens
+    prompt_tokens = 0
+    candidates_tokens = 0
+    total_tokens = 0
+    estimated_cost = 0.0
+    
+    if hasattr(response, "usage_metadata") and response.usage_metadata:
+        prompt_tokens = response.usage_metadata.prompt_token_count
+        candidates_tokens = response.usage_metadata.candidates_token_count
+        total_tokens = response.usage_metadata.total_token_count
+        
+        estimated_cost = (prompt_tokens * (0.075 / 1000000)) + (candidates_tokens * (0.30 / 1000000))
+    
+    # Format and return dict with citations and telemetry
     unique_citations = list(set(meta.get("source", "unknown") for meta in metadatas))
     source_docs = [
         {"text": doc, "source": meta.get("source", "unknown")}
@@ -67,7 +90,12 @@ Answer:"""
         "query": query,
         "response": response.text.strip(),
         "citations": unique_citations,
-        "sources": source_docs
+        "sources": source_docs,
+        "telemetry": {
+            "latency_seconds": round(latency, 4),
+            "total_tokens": total_tokens,
+            "estimated_cost_usd": round(estimated_cost, 8)
+        }
     }
 
 if __name__ == "__main__":
@@ -85,15 +113,18 @@ if __name__ == "__main__":
     en_result = generate_bilingual_response(en_query)
     print(f"Response:\n{en_result['response']}\n")
     print(f"Citations: {en_result['citations']}")
+    print(f"Telemetry: {en_result['telemetry']}")
 
     print("\n--- Testing Arabic Query ---")
     print(f"Query: {ar_query}")
     ar_result = generate_bilingual_response(ar_query)
     print(f"Response:\n{ar_result['response']}\n")
     print(f"Citations: {ar_result['citations']}")
+    print(f"Telemetry: {ar_result['telemetry']}")
 
     print("\n--- Testing Out-of-Scope Query ---")
     print(f"Query: {out_of_scope_query}")
     oos_result = generate_bilingual_response(out_of_scope_query)
     print(f"Response:\n{oos_result['response']}\n")
     print(f"Citations: {oos_result['citations']}")
+    print(f"Telemetry: {oos_result['telemetry']}")
