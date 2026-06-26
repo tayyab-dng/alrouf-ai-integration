@@ -1,10 +1,14 @@
 from fastapi import FastAPI
+from app.routers import quotations
 
 app = FastAPI(
     title="AL ROUF Quotation Engine",
     description="Offline-friendly Quotation Engine microservice for AL ROUF LED Assessment.",
     version="0.1.0"
 )
+
+# Register routes
+app.include_router(quotations.router, tags=["Quotations"])
 
 @app.get("/")
 def read_root():
