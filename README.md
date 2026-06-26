@@ -55,3 +55,18 @@ cp .env.example .env
 uvicorn app.main:app --reload
 ```
 The API documentation will be available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+
+## Docker Setup
+
+To package and run the application inside a containerized Docker environment:
+
+### 1. Build the Docker image
+```bash
+docker build -t alrouf-quotation-api .
+```
+
+### 2. Run the Docker container
+```bash
+docker run -p 8000:8000 alrouf-quotation-api
+```
+Once running, you can access the API endpoints and Swagger docs at [http://localhost:8000/docs](http://localhost:8000/docs).
