@@ -56,3 +56,6 @@ venv.bak/
 *.njsproj
 *.sln
 *.sw?
+
+# Vector Database
+rag/db/
