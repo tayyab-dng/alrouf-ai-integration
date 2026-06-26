@@ -16,7 +16,7 @@ class QuoteItem(BaseModel):
 
 class CreateQuoteRequest(BaseModel):
     rfq_id: str = Field(..., description="Reference RFQ ID")
-    items: List[QuoteItem] = Field(..., min_items=1, description="List of items in the RFQ")
+    items: List[QuoteItem] = Field(..., min_length=1, description="List of items in the RFQ")
     currency: str = Field("USD", description="Currency of the quote")
 
 class Quotation(BaseModel):
@@ -83,7 +83,7 @@ def create_quotation(payload: CreateQuoteRequest):
     )
 
     # 5. Save/Append
-    quotes.append(new_quote.dict())
+    quotes.append(new_quote.model_dump())
     write_mock_quotes(quotes)
 
     return new_quote
