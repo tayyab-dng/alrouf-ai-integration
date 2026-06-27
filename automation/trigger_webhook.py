@@ -16,17 +16,16 @@ def trigger_webhook():
         print("Error: WEBHOOK_URL not found in environment variables or .env file.")
         return
 
-    if not PAYLOAD_PATH.exists():
-        print(f"Error: Sample payload file not found at {PAYLOAD_PATH}")
-        return
-
-    # Read JSON payload
-    with open(PAYLOAD_PATH, "r", encoding="utf-8") as f:
-        try:
-            payload = json.load(f)
-        except json.JSONDecodeError as e:
-            print(f"Error: Failed to parse JSON payload. {e}")
-            return
+    payload = {
+        "client_name": "Tariq Mahmood",
+        "company": "Al-Futtaim Construction",
+        "email": "tariq.mahmood@al-futtaim.ae",
+        "phone": "-2566923",
+        "project_type": "Commercial Office",
+        "total_items": 120,
+        "status": "New",
+        "attachment_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    }
 
     print(f"Sending RFQ payload to webhook: {webhook_url} ...")
     
