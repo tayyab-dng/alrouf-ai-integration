@@ -103,28 +103,36 @@ if __name__ == "__main__":
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     
-    # Test queries
-    en_query = "What is the warranty on the solar street light?"
-    ar_query = "ما هي أبعاد اللوحة الذكية؟"
-    out_of_scope_query = "What is the recipe for biryani?"
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
+        print(f"Query: {query}")
+        result = generate_bilingual_response(query)
+        print(f"Response:\n{result['response']}\n")
+        print(f"Citations: {result['citations']}")
+        print(f"Telemetry: {result['telemetry']}")
+    else:
+        # Test queries
+        en_query = "What is the warranty on the solar street light?"
+        ar_query = "ما هي أبعاد اللوحة الذكية؟"
+        out_of_scope_query = "What is the recipe for biryani?"
 
-    print("--- Testing English Query ---")
-    print(f"Query: {en_query}")
-    en_result = generate_bilingual_response(en_query)
-    print(f"Response:\n{en_result['response']}\n")
-    print(f"Citations: {en_result['citations']}")
-    print(f"Telemetry: {en_result['telemetry']}")
+        print("--- Testing English Query ---")
+        print(f"Query: {en_query}")
+        en_result = generate_bilingual_response(en_query)
+        print(f"Response:\n{en_result['response']}\n")
+        print(f"Citations: {en_result['citations']}")
+        print(f"Telemetry: {en_result['telemetry']}")
 
-    print("\n--- Testing Arabic Query ---")
-    print(f"Query: {ar_query}")
-    ar_result = generate_bilingual_response(ar_query)
-    print(f"Response:\n{ar_result['response']}\n")
-    print(f"Citations: {ar_result['citations']}")
-    print(f"Telemetry: {ar_result['telemetry']}")
+        print("\n--- Testing Arabic Query ---")
+        print(f"Query: {ar_query}")
+        ar_result = generate_bilingual_response(ar_query)
+        print(f"Response:\n{ar_result['response']}\n")
+        print(f"Citations: {ar_result['citations']}")
+        print(f"Telemetry: {ar_result['telemetry']}")
 
-    print("\n--- Testing Out-of-Scope Query ---")
-    print(f"Query: {out_of_scope_query}")
-    oos_result = generate_bilingual_response(out_of_scope_query)
-    print(f"Response:\n{oos_result['response']}\n")
-    print(f"Citations: {oos_result['citations']}")
-    print(f"Telemetry: {oos_result['telemetry']}")
+        print("\n--- Testing Out-of-Scope Query ---")
+        print(f"Query: {out_of_scope_query}")
+        oos_result = generate_bilingual_response(out_of_scope_query)
+        print(f"Response:\n{oos_result['response']}\n")
+        print(f"Citations: {oos_result['citations']}")
+        print(f"Telemetry: {oos_result['telemetry']}")
